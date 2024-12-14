@@ -43,3 +43,6 @@ next-env.d.ts
 
 # dev dependencies data
 .yard-dev
+
+# site local storage
+data
