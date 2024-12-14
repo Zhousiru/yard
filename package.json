@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:deps": "sudo docker compose -f compose.dev.yaml",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write .",
+    "format": "prettier --ignore-unknown --write .",
     "prepare": "husky"
   },
   "prettier": {
@@ -21,9 +22,15 @@
     ]
   },
   "dependencies": {
+    "@payloadcms/db-postgres": "^3.7.0",
+    "@payloadcms/next": "^3.7.0",
+    "@payloadcms/richtext-lexical": "^3.7.0",
+    "graphql": "^16.9.0",
     "next": "15.1.0",
+    "payload": "^3.7.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

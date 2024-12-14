@@ -1,4 +1,4 @@
-.husky
-.editorconfig
-.prettierignore
 pnpm-lock.yaml
+
+src/app/(payload)
+payload-types.ts
