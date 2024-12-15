@@ -66,7 +66,7 @@ export interface UserAuthOperations {
 export interface Image {
   id: number;
   alt: string;
-  blurhash?: string | null;
+  thumbhash?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -85,8 +85,8 @@ export interface Image {
  */
 export interface Post {
   id: number;
-  title?: string | null;
-  slug?: string | null;
+  title: string;
+  slug: string;
   'featured-image'?: (number | null) | Image;
   updatedAt: string;
   createdAt: string;
@@ -175,7 +175,7 @@ export interface PayloadMigration {
  */
 export interface ImagesSelect<T extends boolean = true> {
   alt?: T;
-  blurhash?: T;
+  thumbhash?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
