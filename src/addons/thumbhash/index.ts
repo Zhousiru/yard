@@ -2,7 +2,7 @@ import type { CollectionBeforeChangeHook, Field } from 'payload'
 import sharp from 'sharp'
 import { rgbaToThumbHash } from 'thumbhash'
 
-async function imageToThumbhash(data: Buffer) {
+async function imageToThumbHash(data: Buffer) {
   const image = sharp(data)
 
   const metadata = await image.metadata()
@@ -20,13 +20,13 @@ async function imageToThumbhash(data: Buffer) {
     .raw()
     .toBuffer()
 
-  const thumbhash = Buffer.from(rgbaToThumbHash(newWidth, newHeight, rawPixels))
+  const thumbHash = Buffer.from(rgbaToThumbHash(newWidth, newHeight, rawPixels))
 
-  return thumbhash.toString('base64')
+  return thumbHash.toString('base64')
 }
 
-export function createThumbhashHook() {
-  const thumbhashHook: CollectionBeforeChangeHook = async ({ data, req }) => {
+export function createThumbHashHook() {
+  const thumbHashHook: CollectionBeforeChangeHook = async ({ data, req }) => {
     const mimeType: string = data.mimeType ?? ''
     if (!mimeType.startsWith('image/')) {
       return data
@@ -37,26 +37,30 @@ export function createThumbhashHook() {
       return data
     }
 
-    const thumbhash = await imageToThumbhash(fileData)
+    const thumbhash = await imageToThumbHash(fileData)
     return {
       ...data,
       thumbhash,
     }
   }
 
-  return thumbhashHook
+  return thumbHashHook
 }
 
-export function createThumbhashField(): Field {
+export function createThumbHashField(): Field {
   return {
     type: 'text',
     name: 'thumbhash',
+    label: 'ThumbHash',
 
     admin: {
       readOnly: true,
-      placeholder: 'Thumbhash will be generated after save.',
-      // FIXME: Hide the thumbhash field.
-      // hidden: true
+      placeholder: 'ThumbHash will be generated after save.',
+      components: {
+        Field: '@/components/admin/thumbhash-field#ThumbHashField',
+      },
+      disableListColumn: true,
+      disableListFilter: true,
     },
   }
 }

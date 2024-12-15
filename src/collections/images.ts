@@ -1,4 +1,4 @@
-import { createThumbhashField, createThumbhashHook } from '@/addons/thumbhash'
+import { createThumbHashField, createThumbHashHook } from '@/addons/thumbhash'
 import { CollectionConfig, GenerateImageName, ImageSize } from 'payload'
 
 const generateImageName: GenerateImageName = ({
@@ -52,9 +52,9 @@ export const Images: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    createThumbhashField(),
+    createThumbHashField(),
   ],
   hooks: {
-    beforeChange: [createThumbhashHook()],
+    beforeChange: [createThumbHashHook()],
   },
 }
