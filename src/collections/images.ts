@@ -21,7 +21,7 @@ function defineImageSize(width: number): ImageSize {
 export const Images: CollectionConfig = {
   slug: 'images',
   upload: {
-    staticDir: 'data/images',
+    staticDir: '.uploads/images',
 
     // FIXME: `withoutEnlargement` 对于 height 为 undefined 的 item 无效，似乎是 bug，先不做图像优化
     // imageSizes: [

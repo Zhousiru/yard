@@ -11,4 +11,4 @@ services:
     ports:
       - '127.0.0.1:5432:5432'
     volumes:
-      - .yard-dev/db:/var/lib/postgresql/data
+      - ./.db:/var/lib/postgresql/data
