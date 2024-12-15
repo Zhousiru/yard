@@ -11,7 +11,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
-    ignores: ['src/app/(payload)/*', 'payload-types.ts'],
+    ignores: ['src/app/(payload)/*', 'src/payload-types.ts'],
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
 ]

@@ -37,7 +37,7 @@ export const Images: CollectionConfig = {
     //     generateImageName,
     //   },
     // ],
-    adminThumbnail: '300w',
+    // adminThumbnail: '300w',
     mimeTypes: ['image/*'],
 
     // FIXME: 有 bug，如果加上这个，那么在 update 别的 fields 的时候，生成的缩略图会被删除
@@ -49,6 +49,7 @@ export const Images: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
+      required: true,
     },
   ],
 }

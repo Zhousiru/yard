@@ -1,15 +1,15 @@
+import { collections } from '@/collections'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import path from 'path'
 import { buildConfig } from 'payload'
 import computeBlurhash from 'payload-blurhash-plugin'
 import sharp from 'sharp'
-import { Images } from './collections/images'
-import { Posts } from './collections/posts'
 
 export default buildConfig({
   editor: lexicalEditor(),
 
-  collections: [Images, Posts],
+  collections,
 
   secret: process.env.PAYLOAD_SECRET || '',
 
@@ -24,4 +24,8 @@ export default buildConfig({
   plugins: [
     computeBlurhash({ collections: ['images'], algorithm: 'thumbhash' }),
   ],
+
+  typescript: {
+    outputFile: path.resolve(__dirname, './src/payload-types.ts'),
+  },
 })

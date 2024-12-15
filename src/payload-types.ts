@@ -65,7 +65,7 @@ export interface UserAuthOperations {
  */
 export interface Image {
   id: number;
-  alt?: string | null;
+  alt: string;
   blurhash?: string | null;
   updatedAt: string;
   createdAt: string;
