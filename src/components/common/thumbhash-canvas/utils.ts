@@ -16,7 +16,6 @@ export function getThumbHashImage(base64: string) {
   return {
     width: w,
     height: h,
-    ratio: w / h,
     rgba,
   }
 }

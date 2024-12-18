@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  ComponentProps,
-  ComponentRef,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { ComponentProps, ComponentRef, useEffect, useRef } from 'react'
 import { getThumbHashImage } from './utils'
 
 export function ThumbHashCanvas({
@@ -16,16 +10,13 @@ export function ThumbHashCanvas({
   ...props
 }: { hash: string } & ComponentProps<'div'>) {
   const canvasRef = useRef<ComponentRef<'canvas'>>(null)
-  const [ratio, setRatio] = useState<number>()
 
   useEffect(() => {
     const image = getThumbHashImage(hash)
 
-    setRatio(image.ratio)
-
     const context = canvasRef.current!.getContext('2d')
     if (!context) {
-      throw new Error('Failed to get canvas context')
+      throw new Error('Failed to get canvas context.')
     }
 
     const pixels = context.createImageData(image.width, image.height)
@@ -40,7 +31,6 @@ export function ThumbHashCanvas({
     <div
       ref={ref}
       style={{
-        aspectRatio: ratio,
         overflow: 'hidden',
         ...style,
       }}
