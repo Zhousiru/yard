@@ -17,8 +17,7 @@
     "semi": false,
     "singleQuote": true,
     "plugins": [
-      "prettier-plugin-organize-imports",
-      "prettier-plugin-tailwindcss"
+      "prettier-plugin-organize-imports"
     ]
   },
   "dependencies": {
@@ -42,6 +41,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.1",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-tailwindcss": "^3.17.5",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.11",
     "postcss": "^8",

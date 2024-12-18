@@ -1,4 +1,5 @@
 import { FlatCompat } from '@eslint/eslintrc'
+import tailwind from 'eslint-plugin-tailwindcss'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -10,10 +11,14 @@ const compat = new FlatCompat({
 })
 
 const eslintConfig = [
+  ...tailwind.configs['flat/recommended'],
+  ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
   {
     ignores: ['src/app/(payload)/*', 'src/payload-types.ts'],
+    rules: {
+      'tailwindcss/no-custom-classname': 'off',
+    },
   },
-  ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
 ]
 
 export default eslintConfig
