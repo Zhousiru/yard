@@ -14,10 +14,13 @@ export function ThumbHashField({ path, field }: TextFieldClientProps) {
   return (
     <div className="field-type">
       <FieldLabel label={field.label} />
-      <ThumbHashCanvas
-        hash={value}
-        style={{ width: 200, borderRadius: 'var(--style-radius-m)' }}
-      />
+      <div className="max-w-[350px] overflow-hidden rounded shadow">
+        <ThumbHashCanvas hash={value} />
+        <div className="p-4">
+          <div className="font-mono">{value}</div>
+          <div className="opacity-75">{value.length} Bytes</div>
+        </div>
+      </div>
     </div>
   )
 }
