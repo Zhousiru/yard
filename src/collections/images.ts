@@ -1,5 +1,5 @@
-import { createThumbHashField, createThumbHashHook } from '@/addons/thumbhash'
 import { CollectionConfig, GenerateImageName, ImageSize } from 'payload'
+import sharp from 'sharp'
 
 const generateImageName: GenerateImageName = ({
   originalName,
@@ -7,13 +7,16 @@ const generateImageName: GenerateImageName = ({
   extension,
 }) => `${originalName}-${sizeName}.${extension}`
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function defineImageSize(width: number): ImageSize {
+function defineImageSize(
+  width: number | undefined,
+  format: keyof sharp.FormatEnum | sharp.AvailableFormatInfo,
+  name: string = `${width}w`,
+): ImageSize {
   return {
-    name: `${width}w`,
+    name,
     width,
     formatOptions: {
-      format: 'avif',
+      format,
     },
     generateImageName,
   }
@@ -22,29 +25,22 @@ function defineImageSize(width: number): ImageSize {
 export const Images: CollectionConfig = {
   slug: 'images',
   upload: {
-    staticDir: '.uploads/images',
-
-    // FIXME: `withoutEnlargement` 对于 height 为 undefined 的 item 无效，似乎是 bug，先不做图像优化
-    // imageSizes: [
-    //   defineImageSize(300),
-    //   defineImageSize(600),
-    //   defineImageSize(1200),
-    //   defineImageSize(2400),
-    //   {
-    //     name: `full`,
-    //     formatOptions: {
-    //       format: 'avif',
-    //     },
-    //     generateImageName,
-    //   },
-    // ],
-    // adminThumbnail: '300w',
+    disableLocalStorage: true,
+    // FIXME: `withoutEnlargement` 对于 height 为 undefined 的 item 无效
+    // FIXME: 如果加上这个，那么在 update 别的 fields 的时候，生成的缩略图会被删除，先添加一个 original size workaround
+    // formatOptions: {
+    //   format: 'avif',
+    // },
+    imageSizes: [
+      defineImageSize(16, 'webp', 'lqip'),
+      defineImageSize(300, 'avif'),
+      defineImageSize(600, 'avif'),
+      defineImageSize(1200, 'avif'),
+      defineImageSize(2400, 'avif'),
+      defineImageSize(undefined, 'avif', 'original'),
+    ],
+    adminThumbnail: '300w',
     mimeTypes: ['image/*'],
-
-    // FIXME: 有 bug，如果加上这个，那么在 update 别的 fields 的时候，生成的缩略图会被删除
-    formatOptions: {
-      format: 'avif',
-    },
   },
   fields: [
     {
@@ -52,9 +48,30 @@ export const Images: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    createThumbHashField(),
+    {
+      name: 'lqip-preview',
+      label: 'LQIP Preview',
+      type: 'text',
+      hooks: {
+        beforeChange: [
+          ({ siblingData }) => {
+            delete siblingData['lqip-preview']
+          },
+        ],
+        afterRead: [
+          ({ data }) => {
+            return JSON.stringify(data?.sizes?.lqip)
+          },
+        ],
+      },
+      admin: {
+        readOnly: true,
+        components: {
+          Field: '@/components/admin/lqip-preview-field#LqipPreviewField',
+        },
+        disableListColumn: true,
+        disableListFilter: true,
+      },
+    },
   ],
-  hooks: {
-    beforeChange: [createThumbHashHook()],
-  },
 }
